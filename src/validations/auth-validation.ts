@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const loginSchema = z.object({
+export const loginSchemaForm = z.object({
 	email: z
 		.string()
 		.regex(
@@ -11,4 +11,4 @@ export const loginSchema = z.object({
 	password: z.string().min(1, "Password tidak boleh kosong"),
 });
 
-export type LoginForm = z.infer<typeof loginSchema>;
+export type LoginForm = z.infer<typeof loginSchemaForm>;
