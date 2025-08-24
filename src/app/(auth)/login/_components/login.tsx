@@ -33,8 +33,7 @@ export default function Login() {
 		INITIAL_STATE_LOGIN_FORM
 	);
 
-	const onSubmit = form.handleSubmit((data) => {
-		// console.log("Form submitted with data:", data);
+	const onSubmit = form.handleSubmit(async (data) => {
 		const formData = new FormData();
 		Object.entries(data).forEach(([key, value]) => {
 			formData.append(key, value);
@@ -47,8 +46,8 @@ export default function Login() {
 
 	useEffect(() => {
 		if (loginState?.status === "error") {
-			toast.error("Login gagal", {
-				description: loginState.errors._form?.[0] || "Terjadi kesalahan",
+			toast.error("Login Failed", {
+				description: loginState.errors?._form?.[0],
 			});
 			startTransition(() => {
 				loginAction(null);
@@ -56,13 +55,11 @@ export default function Login() {
 		}
 	}, [loginState]);
 
-	console.log("Login state:", loginState);
-
 	return (
 		<Card>
 			<CardHeader className="text-center">
-				<CardTitle className="text-xl">Selamat Datang</CardTitle>
-				<CardDescription>Login untuk melanjutkan</CardDescription>
+				<CardTitle className="text-xl">Welcome</CardTitle>
+				<CardDescription>Login to access all features</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>
@@ -71,13 +68,13 @@ export default function Login() {
 							form={form}
 							name="email"
 							label="Email"
-							placeholder="Masukan email"
+							placeholder="Insert email here"
 							type="email"
 						/>
 						<FormInput
 							form={form}
 							name="password"
-							label="Pawword"
+							label="Password"
 							placeholder="******"
 							type="password"
 						/>

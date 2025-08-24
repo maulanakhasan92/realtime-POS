@@ -7,6 +7,7 @@ import {
 	FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 
 export default function FormInput<T extends FieldValues>({
 	form,
@@ -30,7 +31,7 @@ export default function FormInput<T extends FieldValues>({
 					<FormLabel>{label}</FormLabel>
 					<FormControl>
 						{type === "textarea" ? (
-							<textarea
+							<Textarea
 								{...rest}
 								placeholder={placeholder}
 								autoComplete="off"

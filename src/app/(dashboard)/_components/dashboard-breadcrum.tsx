@@ -8,14 +8,12 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 
 export default function DashboardBreadcrumb() {
 	const pathname = usePathname();
-	const paths = pathname.split("/").slice(1); // Remove the leading empty string from the split
-
+	const paths = pathname.split("/").slice(1);
 	return (
 		<Breadcrumb>
 			<BreadcrumbList>
@@ -23,14 +21,9 @@ export default function DashboardBreadcrumb() {
 					<Fragment key={`path-${path}`}>
 						<BreadcrumbItem className="capitalize">
 							{index < paths.length - 1 ? (
-								// <BreadcrumbLink
-								// 	href={`/${paths.slice(0, index + 1).join("/")}`}>
-								// 	{path}
-								// </BreadcrumbLink>
-								<BreadcrumbLink asChild>
-									<Link href={`/${paths.slice(0, index + 1).join("/")}`}>
-										{path}
-									</Link>
+								<BreadcrumbLink
+									href={`/${paths.slice(0, index + 1).join("/")}`}>
+									{path}
 								</BreadcrumbLink>
 							) : (
 								<BreadcrumbPage>{path}</BreadcrumbPage>
