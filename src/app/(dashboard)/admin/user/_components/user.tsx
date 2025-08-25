@@ -5,34 +5,38 @@ import DropdownAction from "@/components/common/dropdown-action";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { HEADER_TABLE_USER } from "@/constants/user-constant";
+import useDatatable from "@/hooks/use-data-table";
 import { createClient } from "@/lib/supabase/client";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { useQuery } from "@tanstack/react-query";
 import { Pencil, Trash2 } from "lucide-react";
-import { useMemo } from "react";
+import { use, useMemo } from "react";
 import { toast } from "sonner";
 
 export default function UserManagement() {
 	const supabase = createClient();
+	const { currentPage, currentLimit, handleChangePage, handleChangeLimit } =
+		useDatatable();
 	const { data: users, isLoading } = useQuery({
-		queryKey: ["users"],
+		queryKey: ["users", currentPage, currentLimit],
 		queryFn: async () => {
-			const { data, error } = await supabase
+			const result = await supabase
 				.from("profiles")
 				.select("*", { count: "exact" })
+				.range((currentPage - 1) * currentLimit, currentPage * currentLimit - 1)
 				.order("created_at");
 
-			if (error)
+			if (result.error)
 				toast.error("Get user data failed", {
-					description: error.message,
+					description: result.error.message,
 				});
 
-			return data;
+			return result;
 		},
 	});
 
 	const filteredData = useMemo(() => {
-		return (users || []).map((user, index) => {
+		return (users?.data || []).map((user, index) => {
 			return [
 				index + 1,
 				user.id,
@@ -63,6 +67,12 @@ export default function UserManagement() {
 		});
 	}, [users]);
 
+	const totalPages = useMemo(() => {
+		return users && users.count !== null
+			? Math.ceil(users.count / currentLimit)
+			: 0;
+	}, [users]);
+
 	return (
 		<div className="w-full ">
 			<div className="flex flex-col lg:flex-row mb-4 gap-2 justify-between w-full">
@@ -80,6 +90,11 @@ export default function UserManagement() {
 				header={HEADER_TABLE_USER}
 				isLoading={isLoading}
 				data={filteredData}
+				totalPages={totalPages}
+				currentPage={currentPage}
+				currentLimit={currentLimit}
+				onChangePage={handleChangePage}
+				onChangeLimit={handleChangeLimit}
 			/>
 		</div>
 	);
