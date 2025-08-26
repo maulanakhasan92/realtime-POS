@@ -1,9 +1,12 @@
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from "@/constants/data-table-constants";
 import { useState } from "react";
+import UseDebounce from "./use-debounce";
 
 export default function useDatatable() {
 	const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
 	const [currentLimit, setCurrentLimit] = useState(DEFAULT_LIMIT);
+	const [currentSearch, setCurrentSearch] = useState("");
+	const debounce = UseDebounce();
 
 	const handleChangePage = (page: number) => {
 		setCurrentPage(page);
@@ -14,10 +17,19 @@ export default function useDatatable() {
 		setCurrentPage(DEFAULT_PAGE);
 	};
 
+	const handleChangeSearch = (Search: string) => {
+		debounce(() => {
+			setCurrentSearch(Search);
+			setCurrentPage(DEFAULT_PAGE);
+		}, 500);
+	};
+
 	return {
 		currentPage,
 		handleChangePage,
 		currentLimit,
 		handleChangeLimit,
+		currentSearch,
+		handleChangeSearch,
 	};
 }
