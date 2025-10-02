@@ -44,3 +44,15 @@ export const ROLE_LIST = [
 	{ value: "cashier", label: "Cashier" },
 	{ value: "kitchen", label: "Kitchen" },
 ];
+
+export const INITIAL_STATE_UPDATE_USER = {
+	status: "idle",
+	errors: {
+		name: [],
+		email: [],
+		password: [],
+		role: [],
+		avatar_url: [],
+		_form: [],
+	},
+};

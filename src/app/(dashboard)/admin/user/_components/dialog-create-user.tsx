@@ -9,8 +9,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { startTransition, useActionState, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { createUser } from "../action";
+import { toast } from "sonner";
 import { Preview } from "@/types/general";
 import FormUser from "./form-user";
 
@@ -25,7 +25,7 @@ export default function DialogCreateUser({ refetch }: { refetch: () => void }) {
 
 	const [preview, setPreview] = useState<Preview | undefined>(undefined);
 
-	const onSubmit = form.handleSubmit(async (data) => {
+	const onSubmit = form.handleSubmit((data) => {
 		const formData = new FormData();
 		Object.entries(data).forEach(([key, value]) => {
 			formData.append(key, key === "avatar_url" ? preview!.file ?? "" : value);
@@ -42,6 +42,7 @@ export default function DialogCreateUser({ refetch }: { refetch: () => void }) {
 				description: createUserState.errors?._form?.[0],
 			});
 		}
+
 		if (createUserState?.status === "success") {
 			toast.success("Create User Success");
 			form.reset();
