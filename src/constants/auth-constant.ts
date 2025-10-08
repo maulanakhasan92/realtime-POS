@@ -21,18 +21,28 @@ export const INITIAL_STATE_PROFILE = {
 
 export const INITIAL_CREATE_USER_FORM = {
 	name: "",
-	email: "",
-	password: "",
 	role: "",
 	avatar_url: "",
+	email: "",
+	password: "",
 };
 
 export const INITIAL_STATE_CREATE_USER = {
 	status: "idle",
 	errors: {
-		name: [],
 		email: [],
 		password: [],
+		name: [],
+		role: [],
+		avatar_url: [],
+		_form: [],
+	},
+};
+
+export const INITIAL_STATE_UPDATE_USER = {
+	status: "idle",
+	errors: {
+		name: [],
 		role: [],
 		avatar_url: [],
 		_form: [],
@@ -40,19 +50,27 @@ export const INITIAL_STATE_CREATE_USER = {
 };
 
 export const ROLE_LIST = [
-	{ value: "admin", label: "Admin" },
-	{ value: "cashier", label: "Cashier" },
-	{ value: "kitchen", label: "Kitchen" },
+	{
+		value: "admin",
+		label: "Admin",
+	},
+	{
+		value: "kitchen",
+		label: "Kitchen",
+	},
+	{
+		value: "cashier",
+		label: "Cashier",
+	},
 ];
 
-export const INITIAL_STATE_UPDATE_USER = {
-	status: "idle",
-	errors: {
-		name: [],
-		email: [],
-		password: [],
-		role: [],
-		avatar_url: [],
-		_form: [],
+export const AVAILABILITY_LIST = [
+	{
+		value: "true",
+		label: "Available",
 	},
-};
+	{
+		value: "false",
+		label: "Not Available",
+	},
+];
