@@ -16,6 +16,8 @@ import Image from "next/image";
 import { cn, convertIDR } from "@/lib/utils";
 import { HEADER_TABLE_MENU } from "@/constants/menu-constant";
 import DialogCreateMenu from "./dialog-create-menu";
+import DialogUpdateMenu from "./dialog-update-menu";
+import DialogDeleteMenu from "./dialog-delete-menu";
 
 export default function MenuManagement() {
 	const supabase = createClient();
@@ -83,7 +85,7 @@ export default function MenuManagement() {
 				menu.category,
 				<div>
 					<p>Base: {convertIDR(menu.price)}</p>
-					<p>Discount: {menu.discount}</p>
+					<p>Discount: {menu.discount}%</p>
 					<p>
 						After Discount:{" "}
 						{convertIDR(menu.price - (menu.price * menu.discount) / 100)}
@@ -165,6 +167,20 @@ export default function MenuManagement() {
 				currentLimit={currentLimit}
 				onChangePage={handleChangePage}
 				onChangeLimit={handleChangeLimit}
+			/>
+
+			<DialogUpdateMenu
+				open={selectedAction !== null && selectedAction.type === "update"}
+				refetch={refetch}
+				currentData={selectedAction?.data}
+				handleChangeAction={handleChangeAction}
+			/>
+
+			<DialogDeleteMenu
+				open={selectedAction !== null && selectedAction.type === "delete"}
+				refetch={refetch}
+				currentData={selectedAction?.data}
+				handleChangeAction={handleChangeAction}
 			/>
 		</div>
 	);
